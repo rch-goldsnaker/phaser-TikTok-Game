@@ -1,12 +1,17 @@
+import Balls from '../gameObjects/balls.js';
+
+
 export class Game extends Phaser.Scene {
 
   constructor() {
     super({ key: 'game' });
   }
   
+  
   init() {
     this.score = 0;
   }
+
 
   preload() {
     this.load.image('background', 'images/background.png');
@@ -42,10 +47,22 @@ export class Game extends Phaser.Scene {
     
     this.cursors = this.input.keyboard.createCursorKeys();
     
-    this.ball = this.physics.add.image(385, 430, 'ball');
-    this.ball.setBounce(1);
-    this.ball.setCollideWorldBounds(true);
-    this.ball.setData('glue', true);
+    // this.ball = this.physics.add.image(385, 430, 'ball');
+    // this.ball.setBounce(1);
+    // this.ball.setCollideWorldBounds(true);
+    // this.ball.setData('glue', true);
+
+    this.groupBalls = this.add.group();
+    this.groupBalls.enableBody = true; 
+    this.groupBalls.physicsBodyType = Phaser.Physics.ARCADE;
+
+    for (var i = 0; i < 50; i++) {
+      var c = this.groupBalls.create(Math.random() * 500, Math.random() * 500, 'ball');
+      c.name = 'veg' + i;
+      console.log(c)
+    }
+    
+    this.ball = new Balls(this, 385, 430, 'ball');
 
     this.physics.add.collider(this.ball, this.platform, this.platformImpact, null, this);
 
@@ -80,10 +97,27 @@ export class Game extends Phaser.Scene {
     }
 
     if (this.cursors.up.isDown) {
-      if (this.ball.getData('glue')) {
-        this.ball.setVelocity(-60, -300);
-        this.ball.setData('glue', false);
-      }
+      // if (this.ball.getData('glue')) {
+      //   this.ball.setVelocity(-60, -300);
+      //   this.ball.setData('glue', false);
+      // }
+      // this.ball.setVelocity(-60, -300);
+      // this.ball.setData('glue', false);
+
+      // this.ball = new Balls(this, 385, 430, 'ball');
+
+      // this.physics.add.collider(this.ball, this.platform, this.platformImpact, null, this);
+
+      // this.physics.add.collider(this.ball, this.bricks, this.brickImpact, null, this);
+
+      // this.physics.add.collider(this.ball, this.ball);
+
+      // groupBall = this.groupBalls.getFirstExists(false);
+
+      // if (groupBall) {
+      //   groupBall.reset(sprite.x + 6, sprite.y - 8);
+      //   groupBall.body.velocity.y = -300;
+      // }
     }
   }
 
@@ -92,13 +126,13 @@ export class Game extends Phaser.Scene {
     let relativeImpact = ball.x - platform.x;
     if(relativeImpact > 0) {
       console.log('derecha!');
-      ball.setVelocityX(8 * relativeImpact);
+      ball.body.setVelocityX(8 * relativeImpact);
     } else if(relativeImpact < 0) {
       console.log('izquierda!');
-      ball.setVelocityX(8 * relativeImpact);
+      ball.body.setVelocityX(8 * relativeImpact);
     } else {
       console.log('centro!!');
-      ball.setVelocityX(Phaser.Math.Between(-10, 10))
+      ball.body.setVelocityX(Phaser.Math.Between(-10, 10))
     }
   }
 

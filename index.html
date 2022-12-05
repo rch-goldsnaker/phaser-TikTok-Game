@@ -1,13 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Juego de la bola</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de la bola</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js" crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+    <script src="/tiktokConnection/connection.js"></script>
+    <script src="/tiktokConnection/app.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="manifest" href="./manifest.json">
+    <script type="text/javascript">
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("sw.js");
+        }
+    </script>
 </head>
+
 <body>
-  
-  <script src="//cdn.jsdelivr.net/npm/phaser@3.24.0/dist/phaser.js"></script>
-  <script src="index.js" type="module"></script>
+    <div class="inputFields hide">
+        <p>Enter the <b>@username</b> of a user who is currently live:</p>
+        <input type="text" id="uniqueIdInput">
+        <input type="button" id="connectButton" value="connect">
+        <a href="#" onclick="generateOverlay()">Generate Overlay URL</a>
+    </div>
+    <table class="splitstatetable hide">
+        <tr>
+            <td>
+                <pre id="stateText"></pre>
+            </td>
+            <td>
+                <div id="roomStats"></div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- <table class="splitchattable">
+        <tr>
+            <td>
+                <div class="chatcontainer">
+                    <h3 class="containerheader">Chats</h3>
+                </div>
+            </td>
+            <td>
+                <div class="giftcontainer">
+                    <h3 class="containerheader">Gifts</h3>
+                </div>
+            </td>
+        </tr>
+    </table>-->
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.24.0/dist/phaser.js"></script>
+    <script src="index2.js"></script>
 </body>
+
 </html>
