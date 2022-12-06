@@ -34,7 +34,9 @@ var ballsChat = [];
 var ballsChatGenerated = [];
 var rects=[];
 var stopDoor;
+var stopDoor2;
 var open = false;
+var text;
 
 function preload() {
     this.load.image('platform', 'images/platform.png');
@@ -59,6 +61,7 @@ function create() {
 
     stopDoor = this.matter.add.image(60, 430, 'stop', null, { isStatic: true })
     stopDoor2 = this.matter.add.image(60, 430, 'stop', null, { isStatic: true })
+
 }
 
 setInterval(pushingNewElements, 1000);
@@ -67,7 +70,7 @@ function pushingNewElements(){
     ballsChat.push({ id: Phaser.Math.Between(100, 700), image:"https://picsum.photos/30/30"})
 }
 
-setInterval(renderingElements, 1000);
+setInterval(renderingElements, 3000);
 
 function renderingElements(){
     if (ballsChat.length>0) {
@@ -156,4 +159,13 @@ function update(){
             }
         }
     }
+    // console.log(text)
+    var text = this.add.text(60, 60, '', { font: '15px Courier', fill: '#00ff00' });
+    //  Using the Scene Data Plugin we can store data on a Scene level
+    this.data.set('Widht', window.innerWidth );
+    this.data.set('Height', window.innerHeight);
+    text.setText([
+        'Widht: ' + this.data.get('Widht'),
+        'Height: ' + this.data.get('Height')
+    ]);
 }
