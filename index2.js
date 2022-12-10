@@ -45,18 +45,18 @@ function preload() {
     this.load.image('ball', 'images/ball.png');
     this.load.image('stop','images/stop2.png');
 
-    this.load.image('car1','images/car1.png');
+    this.load.image('car1', 'images/car1.png');
 }
 
 function create() {
     this.matter.world.setBounds(0, 0, window.innerWidth, window.innerHeight, 32, true, true, false, true);
 
-    new rectGroundAngle(5,300,10,600,0, this)
-    new rectGroundAngle(250, 275, 10, 550, 0, this)
+    new rectGroundAngle(5,200,10,430,0, this)
+    new rectGroundAngle(255, 275, 10, 550, 0, this)
     new rectGroundAngle(200, 300, 10, 610, 0, this)
-    new rectGroundAngle(150, 540, 10, 250, 0, this)
+    new rectGroundAngle(145, 540, 10, 250, 0, this)
     new rectGroundAngle(225, 610, 60, 10, 0, this)
-    new rectGroundAngle(200, 670, 110, 10, 0, this)
+    new rectGroundAngle(200, 670, 120, 10, 0, this)
 
     // new triangleGround(60, 640, 200, 90, 0x6666ff, this, 33, -15)
 
@@ -66,12 +66,13 @@ function create() {
     // new triangleGround2(150, 300, 130, 30, 0x6666ff, this, 110, -5)
 
     new triangleGround(220, 600, 45, 10, 0x6666ff, this, 8, -1)
-    new triangleGround(187, 660, 95, 10, 0x6666ff, this, 15, -1)
+    new triangleGround(183, 660, 95, 10, 0x6666ff, this, 15, -1)
 
     stopDoor = this.matter.add.image(50, 430, 'stop', null, { isStatic: true })
     stopDoor2 = this.matter.add.image(60, 430, 'stop', null, { isStatic: true })
 
     car1 = this.add.image(325, 600, 'car1')
+    // car5 = this.add.image(325, 900, 'car5')
 }
 
 setInterval(pushingNewElements, 1000);
@@ -80,7 +81,7 @@ function pushingNewElements(){
     ballsChat.push({ id: Phaser.Math.Between(100, 700), image:"https://picsum.photos/30/30"})
 }
 
-setInterval(renderingElements, 3000);
+setInterval(renderingElements, 1000);
 
 function renderingElements(){
     if (ballsChat.length>0) {
@@ -89,14 +90,19 @@ function renderingElements(){
     }
 }
 
-setInterval(removingDoor, 3000);
+var openDoorTimer = setInterval(openDoor, 15000);
+var closeDoorTimer;
 
-function removingDoor() {
-    if(open){
-        open = false;
-    }else{
-        open = true
-    }
+function openDoor(){
+    clearInterval(openDoorTimer)
+    closeDoorTimer = setInterval(closeDoor, 5000);
+    open = true;
+}
+
+function closeDoor() {
+    clearInterval(closeDoorTimer)
+    openDoorTimer = setInterval(openDoor, 15000);
+    open = false;
 }
 
 function rectGroundAngle(x, y, w, h, angle, scene) {
@@ -142,7 +148,7 @@ class Brain extends Phaser.GameObjects.Sprite {
             let body = ball.body;
             scene.matter.body.setInertia(body, Infinity)
             ball.setVelocity(0, 0);
-            ball.setBounce(0.5);
+            ball.setBounce(0.8);
             ball.setFriction(0, 0, 0);
             ball.setFrictionAir(0);
             ball.setAngularVelocity(0);
@@ -155,13 +161,13 @@ class Brain extends Phaser.GameObjects.Sprite {
 
 function update(){
     if(open){
-        stopDoor.setPosition(80, 430);
-        stopDoor2.setPosition(120, 430);
-        car1.y = 610;
-    }else{
-        car1.y = car1.y - 2;
         stopDoor.setPosition(175, 430);
         stopDoor2.setPosition(225, 430);
+        car1.y = 610;
+    }else{
+        stopDoor.setPosition(245, 575);
+        stopDoor2.setPosition(245, 640);
+        car1.y = car1.y - 2;
     }
 
     if(ballsChatGenerated.length !== 0){
